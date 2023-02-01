@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_app/injection.dart';
@@ -30,7 +31,7 @@ class PokemonScaffold extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Random Pokémon"),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 252, 198, 3),
+        backgroundColor: const Color.fromARGB(255, 3, 194, 252),
         actions: [
           IconButton(
             onPressed: () => debugPrint("Pokeinfo2"),
@@ -64,7 +65,7 @@ class PokemonScaffold extends StatelessWidget {
         ],
         onTap: (int i) => debugPrint("pressed button: $i"),
       ),
-      backgroundColor: Colors.amberAccent.shade100,
+      backgroundColor: const Color.fromARGB(255, 173, 221, 201),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -73,6 +74,17 @@ class PokemonScaffold extends StatelessWidget {
               return Text(state.currentPokemon?.name ?? "",
                   style: Theme.of(context).textTheme.headline4);
             }),
+            BlocBuilder<PokeCubit, PokeState>(
+              builder: (context, state) {
+                if (state.currentPokemon?.sprites != null) {
+                  return CachedNetworkImage(
+                    imageUrl: state.currentPokemon?.sprites?.backDefault ?? "",
+                  );
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
             // Text(
             //   //TODO in textwidget wrap w. builder. (blocbuilder)
             //   randomPokemonCubit.state,

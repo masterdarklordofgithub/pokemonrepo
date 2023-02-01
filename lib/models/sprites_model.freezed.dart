@@ -186,7 +186,7 @@ class __$$_SpritesCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class _$_Sprites implements _Sprites {
+class _$_Sprites extends _Sprites {
   _$_Sprites(
       {required this.backDefault,
       required this.backFemale,
@@ -195,7 +195,8 @@ class _$_Sprites implements _Sprites {
       required this.frontDefault,
       required this.frontShiny,
       required this.frontShinyFemale,
-      required this.frontFemale});
+      required this.frontFemale})
+      : super._();
 
   factory _$_Sprites.fromJson(Map<String, dynamic> json) =>
       _$$_SpritesFromJson(json);
@@ -272,7 +273,7 @@ class _$_Sprites implements _Sprites {
   }
 }
 
-abstract class _Sprites implements Sprites {
+abstract class _Sprites extends Sprites {
   factory _Sprites(
       {required final String backDefault,
       required final String backFemale,
@@ -282,6 +283,7 @@ abstract class _Sprites implements Sprites {
       required final String frontShiny,
       required final String frontShinyFemale,
       required final String frontFemale}) = _$_Sprites;
+  _Sprites._() : super._();
 
   factory _Sprites.fromJson(Map<String, dynamic> json) = _$_Sprites.fromJson;
 

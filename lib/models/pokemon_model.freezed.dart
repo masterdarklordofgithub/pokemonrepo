@@ -21,7 +21,7 @@ Pokemon _$PokemonFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Pokemon {
   String get name => throw _privateConstructorUsedError;
-  Sprites get sprites => throw _privateConstructorUsedError;
+  Sprites? get sprites => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,9 +33,9 @@ abstract class $PokemonCopyWith<$Res> {
   factory $PokemonCopyWith(Pokemon value, $Res Function(Pokemon) then) =
       _$PokemonCopyWithImpl<$Res, Pokemon>;
   @useResult
-  $Res call({String name, Sprites sprites});
+  $Res call({String name, Sprites? sprites});
 
-  $SpritesCopyWith<$Res> get sprites;
+  $SpritesCopyWith<$Res>? get sprites;
 }
 
 /// @nodoc
@@ -52,24 +52,28 @@ class _$PokemonCopyWithImpl<$Res, $Val extends Pokemon>
   @override
   $Res call({
     Object? name = null,
-    Object? sprites = null,
+    Object? sprites = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      sprites: null == sprites
+      sprites: freezed == sprites
           ? _value.sprites
           : sprites // ignore: cast_nullable_to_non_nullable
-              as Sprites,
+              as Sprites?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $SpritesCopyWith<$Res> get sprites {
-    return $SpritesCopyWith<$Res>(_value.sprites, (value) {
+  $SpritesCopyWith<$Res>? get sprites {
+    if (_value.sprites == null) {
+      return null;
+    }
+
+    return $SpritesCopyWith<$Res>(_value.sprites!, (value) {
       return _then(_value.copyWith(sprites: value) as $Val);
     });
   }
@@ -82,10 +86,10 @@ abstract class _$$_PokemonCopyWith<$Res> implements $PokemonCopyWith<$Res> {
       __$$_PokemonCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, Sprites sprites});
+  $Res call({String name, Sprites? sprites});
 
   @override
-  $SpritesCopyWith<$Res> get sprites;
+  $SpritesCopyWith<$Res>? get sprites;
 }
 
 /// @nodoc
@@ -99,17 +103,17 @@ class __$$_PokemonCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
-    Object? sprites = null,
+    Object? sprites = freezed,
   }) {
     return _then(_$_Pokemon(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      sprites: null == sprites
+      sprites: freezed == sprites
           ? _value.sprites
           : sprites // ignore: cast_nullable_to_non_nullable
-              as Sprites,
+              as Sprites?,
     ));
   }
 }
@@ -118,7 +122,7 @@ class __$$_PokemonCopyWithImpl<$Res>
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$_Pokemon implements _Pokemon {
-  _$_Pokemon({required this.name, required this.sprites});
+  _$_Pokemon({required this.name, this.sprites = null});
 
   factory _$_Pokemon.fromJson(Map<String, dynamic> json) =>
       _$$_PokemonFromJson(json);
@@ -126,7 +130,8 @@ class _$_Pokemon implements _Pokemon {
   @override
   final String name;
   @override
-  final Sprites sprites;
+  @JsonKey()
+  final Sprites? sprites;
 
   @override
   String toString() {
@@ -161,16 +166,15 @@ class _$_Pokemon implements _Pokemon {
 }
 
 abstract class _Pokemon implements Pokemon {
-  factory _Pokemon(
-      {required final String name,
-      required final Sprites sprites}) = _$_Pokemon;
+  factory _Pokemon({required final String name, final Sprites? sprites}) =
+      _$_Pokemon;
 
   factory _Pokemon.fromJson(Map<String, dynamic> json) = _$_Pokemon.fromJson;
 
   @override
   String get name;
   @override
-  Sprites get sprites;
+  Sprites? get sprites;
   @override
   @JsonKey(ignore: true)
   _$$_PokemonCopyWith<_$_Pokemon> get copyWith =>

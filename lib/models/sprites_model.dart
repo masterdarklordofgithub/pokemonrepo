@@ -5,6 +5,8 @@ part 'sprites_model.g.dart';
 
 @freezed
 class Sprites with _$Sprites {
+  const Sprites._();
+
   @JsonSerializable(fieldRename: FieldRename.snake)
   factory Sprites({
     required String backDefault,
@@ -16,6 +18,11 @@ class Sprites with _$Sprites {
     required String frontShinyFemale,
     required String frontFemale,
   }) = _Sprites;
+
+  List<String> get maleImages =>
+      [backDefault, backShiny, frontDefault, frontShiny];
+  List<String> get femaleImages =>
+      [backFemale, backShinyFemale, frontFemale, frontShinyFemale];
 
   factory Sprites.fromJson(Map<String, dynamic> map) => _$SpritesFromJson(map);
 }

@@ -24,7 +24,7 @@ class PokeCubit extends Cubit<PokeState> {
 
   void getAllPokemons() async {
     emit(state.copyWith(isLoading: true));
-    final response = await pokemonRepository.getPokemons();
+    final response = await pokemonRepository.fetchPokemons();
 
     response.fold(
       (failure) => emit(
@@ -57,7 +57,57 @@ class PokeCubit extends Cubit<PokeState> {
   void pickRandomPokemon() {
     final Random random = Random();
     int totalPokemon = state.allPokemons.length;
-    final pokemons = state.allPokemons;
+    final pokemons = [...state.allPokemons];
+    final currentPokemon = pokemons.removeAt(random.nextInt(totalPokemon));
+
+    emit(
+      state.copyWith(
+        currentPokemon: currentPokemon,
+        allPokemons: pokemons,
+        alreadyShownPokemon: state.alreadyShownPokemon + [currentPokemon],
+      ),
+    );
+  }
+
+  // Future<String> _getPokemonSprite() async {
+  //   var response =
+  //       await http.get(Uri.parse('https://pokeapi.co/api/v2/pokemon/pikachu'));
+  //   if (response.statusCode == 200) {
+  //     var pokemon = jsonDecode(response.body);
+  //     return pokemon['sprites']['front_default'];
+  //   }
+  //   throw Exception('Failed to load Pokemon sprite');
+  // }
+  void getPokemonSprites() async {
+    emit(state.copyWith(isLoading: true));
+    if (state.currentPokemon?.sprites != null) return;
+    final response = await pokemonRepository.fetchPokemonSprites();
+
+    response.fold(
+      (failure) => emit(
+        state.copyWith(
+          error: failure,
+          isLoading: false,
+        ),
+      ),
+      (pokemonSprites) {
+        final updatedPokemon =
+            state.currentPokemon!.copyWith(sprites: pokemonSprites);
+        emit(
+          state.copyWith(
+            currentPokemon: updatedPokemon,
+            isLoading: false,
+          ),
+        );
+        pickPokemonImage();
+      },
+    );
+  }
+
+  void pickPokemonImage() {
+    final Random random = Random();
+    int totalPokemon = state.allPokemons.length;
+    final pokemons = [...state.allPokemons];
     final currentPokemon = pokemons.removeAt(random.nextInt(totalPokemon));
 
     emit(
@@ -69,6 +119,8 @@ class PokeCubit extends Cubit<PokeState> {
     );
   }
 }
+
+
 // class PokemonData {
 //   final List<String> _pokemonList = [];
 //   final Random _random = Random();
