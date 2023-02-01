@@ -4,5 +4,5 @@ import 'package:pokemon_app/models/sprites_model.dart';
 
 abstract class IPokemonRepository {
   Future<Either<String, List<Pokemon>>> fetchPokemons();
-  Future<Either<String, Sprites>> fetchPokemonSprites();
+  Future<Either<String, Sprites>> fetchPokemonSprites(String name);
 }

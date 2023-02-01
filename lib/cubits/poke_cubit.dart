@@ -22,6 +22,10 @@ class PokeCubit extends Cubit<PokeState> {
     required this.pokemonRepository,
   }) : super(PokeState());
 
+  void changeGender(bool ismale) {
+    emit(state.copyWith(isMale: ismale));
+  }
+
   void getAllPokemons() async {
     emit(state.copyWith(isLoading: true));
     final response = await pokemonRepository.fetchPokemons();
@@ -54,7 +58,7 @@ class PokeCubit extends Cubit<PokeState> {
     // }
   }
 
-  void pickRandomPokemon() {
+  void pickRandomPokemon() async {
     final Random random = Random();
     int totalPokemon = state.allPokemons.length;
     final pokemons = [...state.allPokemons];
@@ -67,6 +71,7 @@ class PokeCubit extends Cubit<PokeState> {
         alreadyShownPokemon: state.alreadyShownPokemon + [currentPokemon],
       ),
     );
+    getPokemonSprites(currentPokemon.name);
   }
 
   // Future<String> _getPokemonSprite() async {
@@ -78,10 +83,10 @@ class PokeCubit extends Cubit<PokeState> {
   //   }
   //   throw Exception('Failed to load Pokemon sprite');
   // }
-  void getPokemonSprites() async {
+  void getPokemonSprites(String pokemonName) async {
     emit(state.copyWith(isLoading: true));
     if (state.currentPokemon?.sprites != null) return;
-    final response = await pokemonRepository.fetchPokemonSprites();
+    final response = await pokemonRepository.fetchPokemonSprites(pokemonName);
 
     response.fold(
       (failure) => emit(
@@ -99,25 +104,15 @@ class PokeCubit extends Cubit<PokeState> {
             isLoading: false,
           ),
         );
-        pickPokemonImage();
       },
     );
   }
 
-  void pickPokemonImage() {
-    final Random random = Random();
-    int totalPokemon = state.allPokemons.length;
-    final pokemons = [...state.allPokemons];
-    final currentPokemon = pokemons.removeAt(random.nextInt(totalPokemon));
-
-    emit(
-      state.copyWith(
-        currentPokemon: currentPokemon,
-        allPokemons: pokemons,
-        alreadyShownPokemon: state.alreadyShownPokemon + [currentPokemon],
-      ),
-    );
-  }
+  // void nextPokemonSprite() {
+  //   emit(state.copyWith(isLoading: true));
+  //   if (state.currentPokemon?.sprites != null) return;
+  //   return state.currentPokemon!.copyWith(sprites: pokemonSprites.);
+  // }
 }
 
 

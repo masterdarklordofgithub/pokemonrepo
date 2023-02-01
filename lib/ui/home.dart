@@ -24,9 +24,6 @@ class PokemonScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final RandomPokemonCubit randomPokemonCubit =
-    //TODO: blocbuilder ist? only builds within scope instead of .watch listener that builds entire tree
-    // context.watch<RandomPokemonCubit>();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Random Pokémon"),
@@ -45,7 +42,7 @@ class PokemonScaffold extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
-        onPressed: (() => debugPrint("Hello")),
+        onPressed: (() => context.read<PokeCubit>().pickRandomPokemon()),
         child: const Icon(Icons.skip_next),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -71,32 +68,44 @@ class PokemonScaffold extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             BlocBuilder<PokeCubit, PokeState>(builder: (context, state) {
-              return Text(state.currentPokemon?.name ?? "",
-                  style: Theme.of(context).textTheme.headline4);
+              return Column(
+                children: [
+                  IconButton(
+                    onPressed: () =>
+                        context.read<PokeCubit>().changeGender(false),
+                    icon: const Icon(Icons.female),
+                  ),
+                  IconButton(
+                    onPressed: () =>
+                        context.read<PokeCubit>().changeGender(true),
+                    icon: const Icon(Icons.male),
+                  ),
+                  Text(state.currentPokemon?.name ?? "",
+                      style: Theme.of(context).textTheme.headline4),
+                ],
+              );
             }),
             BlocBuilder<PokeCubit, PokeState>(
               builder: (context, state) {
                 if (state.currentPokemon?.sprites != null) {
-                  return CachedNetworkImage(
-                    imageUrl: state.currentPokemon?.sprites?.backDefault ?? "",
-                  );
+                  final list = state.isMale
+                      ? state.currentPokemon!.sprites!.maleImages
+                      : state.currentPokemon!.sprites!.femaleImages;
+                  return CachedNetworkImage(imageUrl: list[state.imageIndex]);
                 } else {
                   return const CircularProgressIndicator();
                 }
               },
             ),
-            // Text(
-            //   //TODO in textwidget wrap w. builder. (blocbuilder)
-            //   randomPokemonCubit.state,
-            //   style: Theme.of(context).textTheme.headline4,
-            // ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                context.read<PokeCubit>().pickRandomPokemon();
-                // randomPokemonCubit.getRandomPokemon();
-              },
-              child: const Text('Get Random Pokemon'),
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                primary: const Color.fromARGB(255, 89, 54, 244),
+                side: const BorderSide(
+                  color: Color.fromARGB(255, 54, 82, 244),
+                ),
+              ),
+              onPressed: (() => context.read<PokeCubit>().pickRandomPokemon()),
+              child: const Text("Tap on this"),
             ),
           ],
         ),

@@ -27,12 +27,12 @@ class PokemonRepository implements IPokemonRepository {
   }
 
   @override
-  Future<Either<String, Sprites>> fetchPokemonSprites() async {
+  Future<Either<String, Sprites>> fetchPokemonSprites(
+      String pokemonName) async {
     // TODO: implement getPokemons
-    List<String> spriteUrls = [];
 
     try {
-      final response = await http.get(Uri.parse("${config.api}pikachu"));
+      final response = await http.get(Uri.parse("${config.api}/$pokemonName/"));
       final body = jsonDecode(response.body) as Map<String, dynamic>;
 
       // for (var sprite in body['sprites']) {

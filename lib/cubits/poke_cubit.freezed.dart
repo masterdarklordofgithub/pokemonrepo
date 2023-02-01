@@ -21,6 +21,8 @@ mixin _$PokeState {
   List<Pokemon> get allPokemons => throw _privateConstructorUsedError;
   List<Pokemon> get alreadyShownPokemon => throw _privateConstructorUsedError;
   Pokemon? get currentPokemon => throw _privateConstructorUsedError;
+  bool get isMale => throw _privateConstructorUsedError;
+  int get imageIndex => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PokeStateCopyWith<PokeState> get copyWith =>
@@ -37,7 +39,9 @@ abstract class $PokeStateCopyWith<$Res> {
       bool isLoading,
       List<Pokemon> allPokemons,
       List<Pokemon> alreadyShownPokemon,
-      Pokemon? currentPokemon});
+      Pokemon? currentPokemon,
+      bool isMale,
+      int imageIndex});
 
   $PokemonCopyWith<$Res>? get currentPokemon;
 }
@@ -60,6 +64,8 @@ class _$PokeStateCopyWithImpl<$Res, $Val extends PokeState>
     Object? allPokemons = null,
     Object? alreadyShownPokemon = null,
     Object? currentPokemon = freezed,
+    Object? isMale = null,
+    Object? imageIndex = null,
   }) {
     return _then(_value.copyWith(
       error: freezed == error
@@ -82,6 +88,14 @@ class _$PokeStateCopyWithImpl<$Res, $Val extends PokeState>
           ? _value.currentPokemon
           : currentPokemon // ignore: cast_nullable_to_non_nullable
               as Pokemon?,
+      isMale: null == isMale
+          ? _value.isMale
+          : isMale // ignore: cast_nullable_to_non_nullable
+              as bool,
+      imageIndex: null == imageIndex
+          ? _value.imageIndex
+          : imageIndex // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 
@@ -110,7 +124,9 @@ abstract class _$$_PokeStateCopyWith<$Res> implements $PokeStateCopyWith<$Res> {
       bool isLoading,
       List<Pokemon> allPokemons,
       List<Pokemon> alreadyShownPokemon,
-      Pokemon? currentPokemon});
+      Pokemon? currentPokemon,
+      bool isMale,
+      int imageIndex});
 
   @override
   $PokemonCopyWith<$Res>? get currentPokemon;
@@ -132,6 +148,8 @@ class __$$_PokeStateCopyWithImpl<$Res>
     Object? allPokemons = null,
     Object? alreadyShownPokemon = null,
     Object? currentPokemon = freezed,
+    Object? isMale = null,
+    Object? imageIndex = null,
   }) {
     return _then(_$_PokeState(
       error: freezed == error
@@ -154,6 +172,14 @@ class __$$_PokeStateCopyWithImpl<$Res>
           ? _value.currentPokemon
           : currentPokemon // ignore: cast_nullable_to_non_nullable
               as Pokemon?,
+      isMale: null == isMale
+          ? _value.isMale
+          : isMale // ignore: cast_nullable_to_non_nullable
+              as bool,
+      imageIndex: null == imageIndex
+          ? _value.imageIndex
+          : imageIndex // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -166,7 +192,9 @@ class _$_PokeState implements _PokeState {
       this.isLoading = false,
       final List<Pokemon> allPokemons = const [],
       final List<Pokemon> alreadyShownPokemon = const [],
-      this.currentPokemon = null})
+      this.currentPokemon = null,
+      this.isMale = true,
+      this.imageIndex = 0})
       : _allPokemons = allPokemons,
         _alreadyShownPokemon = alreadyShownPokemon;
 
@@ -198,10 +226,16 @@ class _$_PokeState implements _PokeState {
   @override
   @JsonKey()
   final Pokemon? currentPokemon;
+  @override
+  @JsonKey()
+  final bool isMale;
+  @override
+  @JsonKey()
+  final int imageIndex;
 
   @override
   String toString() {
-    return 'PokeState(error: $error, isLoading: $isLoading, allPokemons: $allPokemons, alreadyShownPokemon: $alreadyShownPokemon, currentPokemon: $currentPokemon)';
+    return 'PokeState(error: $error, isLoading: $isLoading, allPokemons: $allPokemons, alreadyShownPokemon: $alreadyShownPokemon, currentPokemon: $currentPokemon, isMale: $isMale, imageIndex: $imageIndex)';
   }
 
   @override
@@ -217,7 +251,10 @@ class _$_PokeState implements _PokeState {
             const DeepCollectionEquality()
                 .equals(other._alreadyShownPokemon, _alreadyShownPokemon) &&
             (identical(other.currentPokemon, currentPokemon) ||
-                other.currentPokemon == currentPokemon));
+                other.currentPokemon == currentPokemon) &&
+            (identical(other.isMale, isMale) || other.isMale == isMale) &&
+            (identical(other.imageIndex, imageIndex) ||
+                other.imageIndex == imageIndex));
   }
 
   @override
@@ -227,7 +264,9 @@ class _$_PokeState implements _PokeState {
       isLoading,
       const DeepCollectionEquality().hash(_allPokemons),
       const DeepCollectionEquality().hash(_alreadyShownPokemon),
-      currentPokemon);
+      currentPokemon,
+      isMale,
+      imageIndex);
 
   @JsonKey(ignore: true)
   @override
@@ -242,7 +281,9 @@ abstract class _PokeState implements PokeState {
       final bool isLoading,
       final List<Pokemon> allPokemons,
       final List<Pokemon> alreadyShownPokemon,
-      final Pokemon? currentPokemon}) = _$_PokeState;
+      final Pokemon? currentPokemon,
+      final bool isMale,
+      final int imageIndex}) = _$_PokeState;
 
   @override
   String? get error;
@@ -254,6 +295,10 @@ abstract class _PokeState implements PokeState {
   List<Pokemon> get alreadyShownPokemon;
   @override
   Pokemon? get currentPokemon;
+  @override
+  bool get isMale;
+  @override
+  int get imageIndex;
   @override
   @JsonKey(ignore: true)
   _$$_PokeStateCopyWith<_$_PokeState> get copyWith =>
