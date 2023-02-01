@@ -87,10 +87,15 @@ class PokemonScaffold extends StatelessWidget {
             }),
             BlocBuilder<PokeCubit, PokeState>(
               builder: (context, state) {
-                if (state.currentPokemon?.sprites != null) {
+                if (state.currentPokemon?.sprites?.femaleImages != null) {
                   final list = state.isMale
                       ? state.currentPokemon!.sprites!.maleImages
                       : state.currentPokemon!.sprites!.femaleImages;
+                  return CachedNetworkImage(imageUrl: list![state.imageIndex]);
+                } else if (state.currentPokemon?.sprites?.femaleImages ==
+                    null) {
+                  final list = state.currentPokemon!.sprites!.maleImages;
+                  context.read<PokeCubit>().changeGender(true);
                   return CachedNetworkImage(imageUrl: list[state.imageIndex]);
                 } else {
                   return const CircularProgressIndicator();

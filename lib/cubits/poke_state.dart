@@ -11,6 +11,4 @@ class PokeState with _$PokeState {
     @Default(true) bool isMale,
     @Default(0) int imageIndex,
   }) = _PokeState;
-
-  set ismale(bool ismale) {}
 }

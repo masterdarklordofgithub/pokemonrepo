@@ -10,10 +10,6 @@ import '../models/pokemon_model.dart';
 part 'poke_cubit.freezed.dart';
 part 'poke_state.dart';
 
-//TODO: Cubit
-//isloading
-//error text
-
 @injectable
 class PokeCubit extends Cubit<PokeState> {
   final IPokemonRepository pokemonRepository;

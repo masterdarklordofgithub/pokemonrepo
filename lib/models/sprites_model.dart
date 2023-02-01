@@ -21,7 +21,7 @@ class Sprites with _$Sprites {
 
   List<String> get maleImages =>
       [backDefault, backShiny, frontDefault, frontShiny];
-  List<String> get femaleImages =>
+  List<String>? get femaleImages =>
       [backFemale, backShinyFemale, frontFemale, frontShinyFemale];
 
   factory Sprites.fromJson(Map<String, dynamic> map) => _$SpritesFromJson(map);
